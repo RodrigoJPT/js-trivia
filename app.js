@@ -1,19 +1,24 @@
+//Initialize all screens and their relevant elements.
 const mainContainer = document.getElementById('main-container');
+const mainMenu = document.getElementById('main-menu');
 const startButton = document.querySelector('.start-game');
 const gameState = {};
-gameState.titleScreen = mainContainer.children;
+const endScreen = document.createElement('div');
+const endScreenText = document.createElement('p');
+const menuButton = document.createElement('button');
+menuButton.innerText = 'Main Menu';
+menuButton.addEventListener('click', showMainMenu);
+const replayButton = document.createElement('button');
+replayButton.innerText = 'Play Again';
+replayButton.addEventListener('click', startGame);
+const questionScreen = document.createElement('div');
+const questionText = document.createElement('p');
+endScreen.appendChild(endScreenText);
+endScreen.appendChild(menuButton);
+endScreen.appendChild(replayButton);
+questionScreen.appendChild(questionText);
 
 startButton.addEventListener('click', startGame);
-
-function startGame(e) {
-	e.preventDefault();
-	mainContainer.innerHTML = '';
-	getSessionQuestions().then((questions) => {
-		gameState.questions = questions;
-		gameState.currentQuestion = 0;
-		update(gameState.currentQuestion);
-	});
-}
 
 async function getSessionQuestions() {
 	const questions = [];
@@ -28,15 +33,37 @@ async function getSessionQuestions() {
 	return questions;
 }
 
+function startGame(e) {
+	e.preventDefault();
+	console.log('clicked');
+	mainContainer.innerHTML = '';
+	getSessionQuestions().then((questions) => {
+		gameState.questions = questions;
+		gameState.currentQuestion = 0;
+		update(gameState.currentQuestion);
+	});
+}
+
 function update(index) {
 	if (index < gameState.questions.length) {
-		const questionText = document.createElement('p');
 		questionText.innerHTML = gameState.questions[index].question;
 		mainContainer.innerHTML = '';
-		console.log(questionText);
-		mainContainer.appendChild(questionText);
+		mainContainer.appendChild(questionScreen);
 		gameState.currentQuestion++;
+	} else {
+		endGame();
 	}
+}
+
+function endGame(correct = 6, score = null) {
+	endScreenText.innerText = `You answered ${correct} out of ${gameState.questions.length} questions correctly!`;
+	mainContainer.innerHTML = '';
+	mainContainer.appendChild(endScreen);
+}
+
+function showMainMenu(e) {
+	e.preventDefault();
+	mainContainer.innerHTML = '';
 }
 
 //test, delete/modify later

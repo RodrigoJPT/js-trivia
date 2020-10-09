@@ -15,6 +15,11 @@ button {
 	background-color: #62e7b2;
 	border-width: 0px;
 	cursor: pointer;
+	display: block;
+	text-align: center;
+	margin: 0 auto;
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 
 button:hover {
@@ -23,7 +28,7 @@ button:hover {
 
 button:active {
 	/* transform taken from w3schools */
-	transform: translateY(4px);
+	transform: translateY(2px);
 }
 
 button:focus {
