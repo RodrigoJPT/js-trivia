@@ -1,6 +1,6 @@
 //Initialize all screens and their relevant elements.
 const mainContainer = document.getElementById('main-container');
-const mainMenu = document.getElementById('main-menu');
+const mainMenu = document.querySelector('#main-menu').cloneNode(true);
 const startButton = document.querySelector('.start-game');
 const gameState = {};
 const endScreen = document.createElement('div');
@@ -64,10 +64,12 @@ function endGame(correct = 6, score = null) {
 function showMainMenu(e) {
 	e.preventDefault();
 	mainContainer.innerHTML = '';
+	mainMenu.children[1].addEventListener('click', startGame);
+	mainContainer.appendChild(mainMenu);
 }
 
 //test, delete/modify later
-mainContainer.addEventListener('click', (e) => {
+questionText.addEventListener('click', (e) => {
 	e.preventDefault();
 	if (gameState.questions) {
 		update(gameState.currentQuestion);
