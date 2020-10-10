@@ -14,17 +14,18 @@ replayButton.innerText = 'Play Again';
 replayButton.addEventListener('click', startGame);
 const questionScreen = document.createElement('div');
 const questionText = document.createElement('p');
-const buttonContainer = document.createElement('div');
+questionScreen.appendChild(questionText);
+const answerButtonContainer = document.createElement('div');
 //buttonContainer.addEventListener('click', checkAnswer);
 for (i = 0; i < 4; i++) {
 	let newButton = document.createElement('button');
-	newButton.classList.add('question-button');
-	questionScreen.appendChild(newButton);
+	newButton.classList.add('answer-button');
+	answerButtonContainer.appendChild(newButton);
 }
+questionScreen.appendChild(answerButtonContainer);
 endScreen.appendChild(endScreenText);
 endScreen.appendChild(menuButton);
 endScreen.appendChild(replayButton);
-questionScreen.appendChild(questionText);
 
 async function getSessionQuestions() {
 	const questions = [];
@@ -78,7 +79,20 @@ function getButtonAnswers(question) {
 }
 
 function setAnswerButtonText(answers) {
-	console.log(answers);
+	if (answers.length < 3) {
+		for (let i = 0; i < answerButtonContainer.children.length; i++) {
+			if (i > 1) {
+				answerButtonContainer.children[i].style.display = 'none';
+			} else {
+				answerButtonContainer.children[i].innerHTML = answers[i].text;
+			}
+		}
+	} else {
+		for (let i = 0; i < answerButtonContainer.children.length; i++) {
+			answerButtonContainer.children[i].style.display = 'block';
+			answerButtonContainer.children[i].innerHTML = answers[i].text;
+		}
+	}
 }
 
 function endGame(correct = 6, score = null) {
