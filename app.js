@@ -1,4 +1,4 @@
-//Initialize all screens and their relevant elements.
+//Initialize all screens, their relevant elements, and add all event listeners.
 const mainContainer = document.getElementById('main-container');
 const mainMenu = document.getElementById('main-menu');
 const startButton = document.querySelector('.start-game');
@@ -16,7 +16,7 @@ const questionScreen = document.createElement('div');
 const questionText = document.createElement('p');
 questionScreen.appendChild(questionText);
 const answerButtonContainer = document.createElement('div');
-//buttonContainer.addEventListener('click', checkAnswer);
+answerButtonContainer.addEventListener('click', checkAnswer);
 for (i = 0; i < 4; i++) {
 	let newButton = document.createElement('button');
 	newButton.classList.add('answer-button');
@@ -42,13 +42,22 @@ async function getSessionQuestions() {
 
 function startGame(e) {
 	e.preventDefault();
-	console.log('clicked');
 	mainContainer.innerHTML = '';
 	getSessionQuestions().then((questions) => {
 		gameState.questions = questions;
 		gameState.currentQuestion = 0;
 		update(gameState.currentQuestion);
 	});
+}
+
+function checkAnswer(click) {
+	click.preventDefault();
+	console.log(click.target.dataset);
+	if (click.target.dataset.correct === 'true') {
+		console.log('right answer!');
+	} else {
+		console.log('incorrect answer');
+	}
 }
 
 function update(index) {
@@ -85,12 +94,15 @@ function setAnswerButtonText(answers) {
 				answerButtonContainer.children[i].style.display = 'none';
 			} else {
 				answerButtonContainer.children[i].innerHTML = answers[i].text;
+				console.log(answerButtonContainer.children[i]);
+				answerButtonContainer.children[i].dataset.correct = answers[i].correct;
 			}
 		}
 	} else {
 		for (let i = 0; i < answerButtonContainer.children.length; i++) {
 			answerButtonContainer.children[i].style.display = 'block';
 			answerButtonContainer.children[i].innerHTML = answers[i].text;
+			answerButtonContainer.children[i].dataset.correct = answers[i].correct;
 		}
 	}
 }
