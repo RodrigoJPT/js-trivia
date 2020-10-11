@@ -26,29 +26,7 @@ endScreen.appendChild(endScreenText);
 endScreen.appendChild(menuButton);
 endScreen.appendChild(replayButton);
 
-async function getSessionQuestions() {
-	const questions = [];
-	await fetch('https://opentdb.com/api.php?amount=10&category=14')
-		.then((res) => res.json())
-		.then((resJson) => {
-			resJson.results.forEach((question) => {
-				questions.push(question);
-			});
-		})
-		.catch((error) => alert(error));
-	return questions;
-}
-
-function startGame(e) {
-	e.preventDefault();
-	mainContainer.innerHTML = '';
-	getSessionQuestions().then((questions) => {
-		gameState.questions = questions;
-		gameState.currentQuestion = 0;
-		update(gameState.currentQuestion);
-	});
-}
-
+//functions
 function checkAnswer(click) {
 	click.preventDefault();
 	if (!answerButtonContainer.classList.contains('answered')) {
@@ -69,17 +47,10 @@ function checkAnswer(click) {
 	}
 }
 
-function update(index = gameState.currentQuestion) {
-	if (index < gameState.questions.length) {
-		questionText.innerHTML = gameState.questions[index].question;
-		getButtonAnswers(gameState.questions[index]);
-		resetButtons();
-		mainContainer.innerHTML = '';
-		mainContainer.appendChild(questionScreen);
-		gameState.currentQuestion++;
-	} else {
-		endGame();
-	}
+function endGame(correct = 6, score = null) {
+	endScreenText.innerText = `You answered ${correct} out of ${gameState.questions.length} questions correctly!`;
+	mainContainer.innerHTML = '';
+	mainContainer.appendChild(endScreen);
 }
 
 function getButtonAnswers(question) {
@@ -95,6 +66,20 @@ function getButtonAnswers(question) {
 		});
 	});
 	setAnswerButtonText(answers);
+	randomizeButtons();
+}
+
+async function getSessionQuestions() {
+	const questions = [];
+	await fetch('https://opentdb.com/api.php?amount=10&category=14')
+		.then((res) => res.json())
+		.then((resJson) => {
+			resJson.results.forEach((question) => {
+				questions.push(question);
+			});
+		})
+		.catch((error) => alert(error));
+	return questions;
 }
 
 function resetButtons() {
@@ -123,16 +108,44 @@ function setAnswerButtonText(answers) {
 	}
 }
 
-function endGame(correct = 6, score = null) {
-	endScreenText.innerText = `You answered ${correct} out of ${gameState.questions.length} questions correctly!`;
-	mainContainer.innerHTML = '';
-	mainContainer.appendChild(endScreen);
-}
-
 function showMainMenu(e) {
 	e.preventDefault();
 	mainContainer.innerHTML = '';
 	mainContainer.appendChild(mainMenu);
+}
+
+function randomizeButtons() {
+	let temp = answerButtonContainer.removeChild(
+		answerButtonContainer.children[0]
+	);
+	let randIndex = Math.floor(Math.random() * 3);
+	answerButtonContainer.insertBefore(
+		temp,
+		answerButtonContainer.children[randIndex]
+	);
+}
+
+function startGame(e) {
+	e.preventDefault();
+	mainContainer.innerHTML = '';
+	getSessionQuestions().then((questions) => {
+		gameState.questions = questions;
+		gameState.currentQuestion = 0;
+		update(gameState.currentQuestion);
+	});
+}
+
+function update(index = gameState.currentQuestion) {
+	if (index < gameState.questions.length) {
+		questionText.innerHTML = gameState.questions[index].question;
+		getButtonAnswers(gameState.questions[index]);
+		resetButtons();
+		mainContainer.innerHTML = '';
+		mainContainer.appendChild(questionScreen);
+		gameState.currentQuestion++;
+	} else {
+		endGame();
+	}
 }
 
 //test, delete/modify later
