@@ -52,11 +52,19 @@ function startGame(e) {
 
 function checkAnswer(click) {
 	click.preventDefault();
-	console.log(click.target.dataset);
-	if (click.target.dataset.correct === 'true') {
-		console.log('right answer!');
-	} else {
-		console.log('incorrect answer');
+	if (!answerButtonContainer.classList.contains('answered')) {
+		if (click.target.dataset.correct === 'true') {
+			answerButtonContainer.classList.toggle('answered');
+			click.target.classList.toggle('correct');
+		} else {
+			answerButtonContainer.classList.toggle('answered');
+			click.target.classList.toggle('incorrect');
+			for (let i = 0; i < 4; i++) {
+				if (answerButtonContainer.children[i].dataset.correct === 'true') {
+					answerButtonContainer.children[i].classList.toggle('correct');
+				}
+			}
+		}
 	}
 }
 
@@ -94,7 +102,6 @@ function setAnswerButtonText(answers) {
 				answerButtonContainer.children[i].style.display = 'none';
 			} else {
 				answerButtonContainer.children[i].innerHTML = answers[i].text;
-				console.log(answerButtonContainer.children[i]);
 				answerButtonContainer.children[i].dataset.correct = answers[i].correct;
 			}
 		}
