@@ -3,7 +3,10 @@ const mainContainer = document.getElementById('main-container');
 const mainMenu = document.getElementById('main-menu');
 const startButton = document.querySelector('.start-game');
 startButton.addEventListener('click', startGame);
-const gameState = {};
+const gameState = {
+	score: 0,
+	correct: 0,
+};
 const endScreen = document.createElement('div');
 const endScreenText = document.createElement('p');
 const menuButton = document.createElement('button');
@@ -13,6 +16,9 @@ const replayButton = document.createElement('button');
 replayButton.innerText = 'Play Again';
 replayButton.addEventListener('click', startGame);
 const questionScreen = document.createElement('div');
+const score = document.createElement('h4');
+score.innerText = `Score: ${gameState.score}`;
+questionScreen.appendChild(score);
 const questionText = document.createElement('p');
 questionScreen.appendChild(questionText);
 const answerButtonContainer = document.createElement('div');
@@ -33,6 +39,7 @@ function checkAnswer(click) {
 		if (click.target.dataset.correct === 'true') {
 			answerButtonContainer.classList.toggle('answered');
 			click.target.classList.toggle('correct');
+			scoreUpdate(click.target.dataset.difficulty);
 		} else {
 			answerButtonContainer.classList.toggle('answered');
 			click.target.classList.toggle('incorrect');
@@ -47,8 +54,8 @@ function checkAnswer(click) {
 	}
 }
 
-function endGame(correct = 6, score = null) {
-	endScreenText.innerText = `You answered ${correct} out of ${gameState.questions.length} questions correctly!`;
+function endGame() {
+	endScreenText.innerText = `You answered ${gameState.correct} out of ${gameState.questions.length} questions correctly!\n your score is ${gameState.score}!`;
 	mainContainer.innerHTML = '';
 	mainContainer.appendChild(endScreen);
 }
@@ -58,11 +65,13 @@ function getButtonAnswers(question) {
 	answers.push({
 		text: question.correct_answer,
 		correct: true,
+		difficulty: question.difficulty,
 	});
 	question.incorrect_answers.forEach((answer) => {
 		answers.push({
 			text: answer,
 			correct: false,
+			difficulty: question.difficulty,
 		});
 	});
 	setAnswerButtonText(answers);
@@ -82,38 +91,6 @@ async function getSessionQuestions() {
 	return questions;
 }
 
-function resetButtons() {
-	answerButtonContainer.classList.remove('answered');
-	for (let i = 0; i < 4; i++) {
-		answerButtonContainer.children[i].removeAttribute('class');
-	}
-}
-
-function setAnswerButtonText(answers) {
-	if (answers.length < 3) {
-		for (let i = 0; i < answerButtonContainer.children.length; i++) {
-			if (i > 1) {
-				answerButtonContainer.children[i].style.display = 'none';
-			} else {
-				answerButtonContainer.children[i].innerHTML = answers[i].text;
-				answerButtonContainer.children[i].dataset.correct = answers[i].correct;
-			}
-		}
-	} else {
-		for (let i = 0; i < answerButtonContainer.children.length; i++) {
-			answerButtonContainer.children[i].style.display = 'block';
-			answerButtonContainer.children[i].innerHTML = answers[i].text;
-			answerButtonContainer.children[i].dataset.correct = answers[i].correct;
-		}
-	}
-}
-
-function showMainMenu(e) {
-	e.preventDefault();
-	mainContainer.innerHTML = '';
-	mainContainer.appendChild(mainMenu);
-}
-
 function randomizeButtons() {
 	let temp = answerButtonContainer.removeChild(
 		answerButtonContainer.children[0]
@@ -125,12 +102,62 @@ function randomizeButtons() {
 	);
 }
 
+function resetButtons() {
+	answerButtonContainer.classList.remove('answered');
+	for (let i = 0; i < 4; i++) {
+		answerButtonContainer.children[i].removeAttribute('class');
+	}
+}
+
+function scoreUpdate(difficulty) {
+	gameState.correct++;
+	if (difficulty == 'easy') {
+		gameState.score += 200;
+	} else if (difficulty == 'medium') {
+		gameState.score += 500;
+	} else if (difficulty == 'hard') {
+		gameState.score += 1000;
+	}
+	score.innerText = `Score: ${gameState.score}`;
+}
+
+function setAnswerButtonText(answers) {
+	if (answers.length < 3) {
+		for (let i = 0; i < answerButtonContainer.children.length; i++) {
+			if (i > 1) {
+				answerButtonContainer.children[i].style.display = 'none';
+			} else {
+				answerButtonContainer.children[i].innerHTML = answers[i].text;
+				answerButtonContainer.children[i].dataset.correct = answers[i].correct;
+				answerButtonContainer.children[i].dataset.difficulty =
+					answers[i].difficulty;
+			}
+		}
+	} else {
+		for (let i = 0; i < answerButtonContainer.children.length; i++) {
+			answerButtonContainer.children[i].style.display = 'block';
+			answerButtonContainer.children[i].innerHTML = answers[i].text;
+			answerButtonContainer.children[i].dataset.correct = answers[i].correct;
+			answerButtonContainer.children[i].dataset.difficulty =
+				answers[i].difficulty;
+		}
+	}
+}
+
+function showMainMenu(e) {
+	e.preventDefault();
+	mainContainer.innerHTML = '';
+	mainContainer.appendChild(mainMenu);
+}
+
 function startGame(e) {
 	e.preventDefault();
 	mainContainer.innerHTML = '';
 	getSessionQuestions().then((questions) => {
 		gameState.questions = questions;
 		gameState.currentQuestion = 0;
+		gameState.score = 0;
+		gameState.correct = 0;
 		update(gameState.currentQuestion);
 	});
 }
@@ -147,12 +174,3 @@ function update(index = gameState.currentQuestion) {
 		endGame();
 	}
 }
-
-//test, delete/modify later
-/* questionText.addEventListener('click', (e) => {
-	e.preventDefault();
-	if (gameState.questions) {
-		update(gameState.currentQuestion);
-	}
-});
- */
