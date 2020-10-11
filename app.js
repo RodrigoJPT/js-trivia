@@ -19,7 +19,6 @@ const answerButtonContainer = document.createElement('div');
 answerButtonContainer.addEventListener('click', checkAnswer);
 for (i = 0; i < 4; i++) {
 	let newButton = document.createElement('button');
-	newButton.classList.add('answer-button');
 	answerButtonContainer.appendChild(newButton);
 }
 questionScreen.appendChild(answerButtonContainer);
@@ -65,13 +64,16 @@ function checkAnswer(click) {
 				}
 			}
 		}
+		setTimeout(update, 4000);
+		setTimeout;
 	}
 }
 
-function update(index) {
+function update(index = gameState.currentQuestion) {
 	if (index < gameState.questions.length) {
 		questionText.innerHTML = gameState.questions[index].question;
 		getButtonAnswers(gameState.questions[index]);
+		resetButtons();
 		mainContainer.innerHTML = '';
 		mainContainer.appendChild(questionScreen);
 		gameState.currentQuestion++;
@@ -93,6 +95,13 @@ function getButtonAnswers(question) {
 		});
 	});
 	setAnswerButtonText(answers);
+}
+
+function resetButtons() {
+	answerButtonContainer.classList.remove('answered');
+	for (let i = 0; i < 4; i++) {
+		answerButtonContainer.children[i].removeAttribute('class');
+	}
 }
 
 function setAnswerButtonText(answers) {
@@ -127,9 +136,10 @@ function showMainMenu(e) {
 }
 
 //test, delete/modify later
-questionText.addEventListener('click', (e) => {
+/* questionText.addEventListener('click', (e) => {
 	e.preventDefault();
 	if (gameState.questions) {
 		update(gameState.currentQuestion);
 	}
 });
+ */
