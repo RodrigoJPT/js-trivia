@@ -17,8 +17,12 @@ replayButton.innerText = 'Play Again';
 replayButton.addEventListener('click', startGame);
 const questionScreen = document.createElement('div');
 const score = document.createElement('h4');
+score.setAttribute('class', 'score');
 score.innerText = `Score: ${gameState.score}`;
 questionScreen.appendChild(score);
+const progressText = document.createElement('h4');
+progressText.setAttribute('class', 'progress');
+questionScreen.appendChild(progressText);
 const questionText = document.createElement('p');
 questionScreen.appendChild(questionText);
 const answerButtonContainer = document.createElement('div');
@@ -75,7 +79,7 @@ function getButtonAnswers(question) {
 		});
 	});
 	setAnswerButtonText(answers);
-	randomizeButtons();
+	randomizeButtons(answers);
 }
 
 async function getSessionQuestions() {
@@ -91,15 +95,27 @@ async function getSessionQuestions() {
 	return questions;
 }
 
-function randomizeButtons() {
-	let temp = answerButtonContainer.removeChild(
-		answerButtonContainer.children[0]
-	);
-	let randIndex = Math.floor(Math.random() * 3);
-	answerButtonContainer.insertBefore(
-		temp,
-		answerButtonContainer.children[randIndex]
-	);
+function randomizeButtons(answers) {
+	if (answers.length > 2) {
+		let temp = answerButtonContainer.removeChild(
+			answerButtonContainer.children[0]
+		);
+		let randIndex = Math.floor(Math.random() * 3);
+		answerButtonContainer.insertBefore(
+			temp,
+			answerButtonContainer.children[randIndex]
+		);
+	} else {
+		if (answerButtonContainer.children[0].dataset.correct == 'false') {
+			let temp = answerButtonContainer.removeChild(
+				answerButtonContainer.children[0]
+			);
+			answerButtonContainer.insertBefore(
+				temp,
+				answerButtonContainer.children[1]
+			);
+		}
+	}
 }
 
 function resetButtons() {
@@ -164,6 +180,9 @@ function startGame(e) {
 
 function update(index = gameState.currentQuestion) {
 	if (index < gameState.questions.length) {
+		progressText.innerText = `Question ${index + 1}/${
+			gameState.questions.length
+		}`;
 		questionText.innerHTML = gameState.questions[index].question;
 		getButtonAnswers(gameState.questions[index]);
 		resetButtons();

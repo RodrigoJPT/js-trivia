@@ -63,3 +63,19 @@ h1 {
 .answered .incorrect {
 	background-color: crimson !important;
 }
+
+.score {
+	position: absolute;
+	left: 10px;
+	width: auto;
+	top: 0px;
+	height: 100px;
+}
+
+.progress {
+	position: absolute;
+	right: 10px;
+	width: auto;
+	top: 0px;
+	height: 100px;
+}
