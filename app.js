@@ -106,7 +106,7 @@ function randomizeButtons(answers) {
 			answerButtonContainer.children[randIndex]
 		);
 	} else {
-		if (answerButtonContainer.children[0].dataset.correct == 'false') {
+		if (answerButtonContainer.children[0].innerText == 'False') {
 			let temp = answerButtonContainer.removeChild(
 				answerButtonContainer.children[0]
 			);
