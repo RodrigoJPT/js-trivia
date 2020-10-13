@@ -44,8 +44,7 @@ h1 {
 	max-width: 500px;
 	text-align: center;
 	margin: auto;
-	margin-top: 50px;
-	margin-bottom: 50px;
+	margin-top: 25px;
 }
 
 #button-container {
@@ -64,6 +63,14 @@ h1 {
 	background-color: crimson !important;
 }
 
+.progress {
+	position: absolute;
+	right: 10px;
+	width: auto;
+	top: 0px;
+	height: 100px;
+}
+
 .score {
 	position: absolute;
 	left: 10px;
@@ -72,10 +79,8 @@ h1 {
 	height: 100px;
 }
 
-.progress {
-	position: absolute;
-	right: 10px;
-	width: auto;
-	top: 0px;
-	height: 100px;
+.timer {
+	text-align: center;
+	color: white;
+	transition: color 0.5s;
 }

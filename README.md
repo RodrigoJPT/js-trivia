@@ -1,34 +1,4 @@
-### MVP Goals
-
-[x] Intro screen with game description and instructions
-[x] “start game” button on intro screen that takes the user to the game.
-[x] 10 questions retrieved from the trivia API to be displayed with multiple choice answers.
-[x] Progress text showing questions answered and remaining.
-[x] Multiple choice answer buttons displayed in random orders so that the correct answer is not always in the same position.
-[x] UI Indicator for correct answers and wrong answers.
-[x] “end game” screen with results
-[x] "play again" and "intro screen" buttons.
-
-### Stretch Goals
-
-### Bronze:
-
-[x] Scores based on question difficulty (part of API)
-[] Time-based score multiplier
-
-### Silver:
-
-[] Tracking of user’s personal scores
-[] Emoji changes based on game state (Thinking face for question, sad face for wrong answers, excited face for correct answers).
-
-### Gold:
-
-[] High Score tracking for all players
-[] Ability to view high scores from the main menu.
-[] Timed Lightning round for bonus score
-[] Sound/Music with toggles to turn off.
-
-# screenshot here
+![screenshot](images/game-screenshot)
 
 # Technologies Used:
 
@@ -36,6 +6,8 @@
 - [Open Trivia Database] (https://opentdb.com/)
 
 # Installation Instructions
+
+> simply clone the repo and run from a server or open the index.html file directly in the browser. The opentdb API does not need any keys or special permissions (see their [documentation](https://opentdb.com/api_config.php) for more info).
 
 ## User Stories
 
@@ -47,10 +19,13 @@
 [x] As a player, I would like to have a summary of my performance once I have answered all of my questions, so that I can be sure of how I did and even share with friends!
 [x] As a player, I would like to be given the option to try again, or return to the main menu after I've completed a game, so that I can keep trying to improve my score.
 
-## Wire Frames
+## Wire Frames:
 
+(Made using [Canva](canva.com))
 ![intro-wireframe](https://media.git.generalassemb.ly/user/30893/files/ab86d380-0947-11eb-8bf3-fc8948a6eeb1)
 ![game-wireframe](https://media.git.generalassemb.ly/user/30893/files/ae81c400-0947-11eb-8317-522d7aea39f0)
 ![end-wireframe](https://media.git.generalassemb.ly/user/30893/files/a88be300-0947-11eb-96de-f4449f398230)
 
-## Hurdles
+## Unsolved:
+
+- A high score system users can submit to.

@@ -32,6 +32,9 @@ for (i = 0; i < 4; i++) {
 	answerButtonContainer.appendChild(newButton);
 }
 questionScreen.appendChild(answerButtonContainer);
+const timerText = document.createElement('h4');
+timerText.classList.add('timer');
+questionScreen.appendChild(timerText);
 endScreen.appendChild(endScreenText);
 endScreen.appendChild(menuButton);
 endScreen.appendChild(replayButton);
@@ -44,6 +47,7 @@ function checkAnswer(click) {
 			answerButtonContainer.classList.toggle('answered');
 			click.target.classList.toggle('correct');
 			scoreUpdate(click.target.dataset.difficulty);
+			continueTimer(true);
 		} else {
 			answerButtonContainer.classList.toggle('answered');
 			click.target.classList.toggle('incorrect');
@@ -52,14 +56,13 @@ function checkAnswer(click) {
 					answerButtonContainer.children[i].classList.toggle('correct');
 				}
 			}
+			continueTimer(false);
 		}
-		setTimeout(update, 4000);
-		setTimeout;
 	}
 }
 
 function endGame() {
-	endScreenText.innerText = `You answered ${gameState.correct} out of ${gameState.questions.length} questions correctly!\n your score is ${gameState.score}!`;
+	endScreenText.innerText = `You answered ${gameState.correct} out of ${gameState.questions.length} questions correctly!\n Your score is ${gameState.score}!`;
 	mainContainer.innerHTML = '';
 	mainContainer.appendChild(endScreen);
 }
@@ -93,6 +96,25 @@ async function getSessionQuestions() {
 		})
 		.catch((error) => alert(error));
 	return questions;
+}
+
+function continueTimer(wasCorrect) {
+	let secondsLeft = 4;
+	const uiText = wasCorrect ? 'Great Job!' : 'Wrong!';
+	timerText.style.color = 'black';
+	timerText.innerText = `${uiText} Next question in ${secondsLeft + 1} seconds`;
+	let screenTimer = setInterval(() => {
+		if (secondsLeft < 1) {
+			update();
+			timerText.style.color = 'white';
+			clearInterval(screenTimer);
+		} else {
+			secondsLeft -= 1;
+			timerText.innerText = `${uiText} Next question in ${
+				secondsLeft + 1
+			} seconds`;
+		}
+	}, 1000);
 }
 
 function randomizeButtons(answers) {
