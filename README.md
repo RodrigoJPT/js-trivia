@@ -7,17 +7,17 @@
 
 # Installation Instructions
 
-> simply clone the repo and run from a server or open the index.html file directly in the browser. The opentdb API does not need any keys or special permissions (see their [documentation](https://opentdb.com/api_config.php) for more info).
+Simply clone the repo and run from a server or open the index.html file directly in the browser. The opentdb API does not need any keys or special permissions (see their [documentation](https://opentdb.com/api_config.php) for more info).
 
 ## User Stories
 
-[x] As a player, I want to see a description of my goal and a button to start the game, so that I can go in feeling prepared.
-[x] As a player, I want to see how many questions I have left, so I can keep track of my progress.
-[x] As a player, I want to be able to see the current trivia question and multiple choice answers, so that I can make educated guesses.
-[] As a player, when I select an answer I would like to know right away if it’s correct or not, so I can keep track of how well I am doing.
-[x] As a player, when I select the wrong answer, I would like to see the correct answer so that I can remember it for next time.
-[x] As a player, I would like to have a summary of my performance once I have answered all of my questions, so that I can be sure of how I did and even share with friends!
-[x] As a player, I would like to be given the option to try again, or return to the main menu after I've completed a game, so that I can keep trying to improve my score.
+- As a player, I want to see a description of my goal and a button to start the game, so that I can go in feeling prepared.
+- As a player, I want to see how many questions I have left, so I can keep track of my progress.
+- As a player, I want to be able to see the current trivia question and multiple choice answers, so that I can make educated guesses.
+- As a player, when I select an answer I would like to know right away if it’s correct or not, so I can keep track of how well I am doing.
+- As a player, when I select the wrong answer, I would like to see the correct answer so that I can remember it for next time.
+- As a player, I would like to have a summary of my performance once I have answered all of my questions, so that I can be sure of how I did and even share with friends!
+- As a player, I would like to be given the option to try again, or return to the main menu after I've completed a game, so that I can keep trying to improve my score.
 
 ## Wire Frames:
 
