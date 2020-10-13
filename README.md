@@ -21,7 +21,6 @@
 
 ## Wire Frames:
 
-(Made using [Canva](canva.com))
 ![intro-wireframe](https://media.git.generalassemb.ly/user/30893/files/ab86d380-0947-11eb-8bf3-fc8948a6eeb1)
 ![game-wireframe](https://media.git.generalassemb.ly/user/30893/files/ae81c400-0947-11eb-8317-522d7aea39f0)
 ![end-wireframe](https://media.git.generalassemb.ly/user/30893/files/a88be300-0947-11eb-96de-f4449f398230)
