@@ -1,9 +1,9 @@
-![screenshot](images/game-screenshot)
+![game-screenshot](https://github.com/RodrigoJPT/js-trivia/blob/dev/images/game-screenshot.png)
 
 # Technologies Used:
 
 - Vanilla HTML/CSS/JS
-- [Open Trivia Database] (https://opentdb.com/)
+- [Open Trivia Database](https://opentdb.com/)
 
 # Installation Instructions
 
