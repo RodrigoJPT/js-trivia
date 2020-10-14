@@ -46,7 +46,7 @@ endScreen.appendChild(replayButton);
 function checkAnswer(click) {
 	click.preventDefault();
 	if (
-		!answerButtonContainer.classList.contains('answered') &&
+		answerButtonContainer.classList.contains('answered') == false &&
 		click.target.tagName == 'BUTTON'
 	) {
 		if (click.target.dataset.correct === 'true') {
