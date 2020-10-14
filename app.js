@@ -34,6 +34,9 @@ for (i = 0; i < 4; i++) {
 questionScreen.appendChild(answerButtonContainer);
 const timerText = document.createElement('h4');
 timerText.classList.add('timer');
+const continueLink = document.createElement('a');
+continueLink.innerText = 'click here to continue';
+continueLink.href = 'javascript:skipCountdown()';
 questionScreen.appendChild(timerText);
 endScreen.appendChild(endScreenText);
 endScreen.appendChild(menuButton);
@@ -99,20 +102,29 @@ async function getSessionQuestions() {
 }
 
 function continueTimer(wasCorrect) {
-	let secondsLeft = 4;
-	const uiText = wasCorrect ? 'Great Job!' : 'Wrong!';
+	gameState.secondsLeft = 4;
+	const getUiText = () => {
+		if (gameState.currentQuestion > 9) {
+			return 'All done... results';
+		} else {
+			return wasCorrect ? 'Great job! Next question' : 'Wrong! Next question';
+		}
+	};
+	const uiText = getUiText();
 	timerText.style.color = 'black';
-	timerText.innerText = `${uiText} Next question in ${secondsLeft + 1} seconds`;
+	timerText.innerHTML = `${uiText} in ${gameState.secondsLeft + 1} seconds or ${
+		continueLink.outerHTML
+	}`;
 	let screenTimer = setInterval(() => {
-		if (secondsLeft < 1) {
+		if (gameState.secondsLeft < 1) {
 			update();
 			timerText.style.color = 'white';
 			clearInterval(screenTimer);
 		} else {
-			secondsLeft -= 1;
-			timerText.innerText = `${uiText} Next question in ${
-				secondsLeft + 1
-			} seconds`;
+			gameState.secondsLeft -= 1;
+			timerText.innerHTML = `${uiText} in ${
+				gameState.secondsLeft + 1
+			} seconds or ${continueLink.outerHTML}`;
 		}
 	}, 1000);
 }
@@ -180,6 +192,10 @@ function setAnswerButtonText(answers) {
 				answers[i].difficulty;
 		}
 	}
+}
+
+function skipCountdown() {
+	gameState.secondsLeft = 0;
 }
 
 function showMainMenu(e) {
