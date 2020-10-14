@@ -28,4 +28,5 @@ Simply clone the repo and run from a server or open the index.html file directly
 ## Unsolved:
 
 - A high score system users can submit to.
-- Avoiding clicks on the margins of the button elements.
+- Time based scoring
+- Audio!
