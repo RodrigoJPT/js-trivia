@@ -45,7 +45,10 @@ endScreen.appendChild(replayButton);
 //functions
 function checkAnswer(click) {
 	click.preventDefault();
-	if (!answerButtonContainer.classList.contains('answered')) {
+	if (
+		!answerButtonContainer.classList.contains('answered') &&
+		click.target.tagName == 'BUTTON'
+	) {
 		if (click.target.dataset.correct === 'true') {
 			answerButtonContainer.classList.toggle('answered');
 			click.target.classList.toggle('correct');
@@ -62,6 +65,34 @@ function checkAnswer(click) {
 			continueTimer(false);
 		}
 	}
+}
+
+function continueTimer(wasCorrect) {
+	gameState.secondsLeft = 4;
+	const getUiText = () => {
+		if (gameState.currentQuestion > 9) {
+			return 'All done... results';
+		} else {
+			return wasCorrect ? 'Great job! Next question' : 'Wrong! Next question';
+		}
+	};
+	const uiText = getUiText();
+	timerText.style.color = 'black';
+	timerText.innerHTML = `${uiText} in ${gameState.secondsLeft + 1} seconds or ${
+		continueLink.outerHTML
+	}`;
+	let screenTimer = setInterval(() => {
+		if (gameState.secondsLeft < 1) {
+			update();
+			timerText.style.color = 'white';
+			clearInterval(screenTimer);
+		} else {
+			gameState.secondsLeft -= 1;
+			timerText.innerHTML = `${uiText} in ${
+				gameState.secondsLeft + 1
+			} seconds or ${continueLink.outerHTML}`;
+		}
+	}, 1000);
 }
 
 function endGame() {
@@ -99,34 +130,6 @@ async function getSessionQuestions() {
 		})
 		.catch((error) => alert(error));
 	return questions;
-}
-
-function continueTimer(wasCorrect) {
-	gameState.secondsLeft = 4;
-	const getUiText = () => {
-		if (gameState.currentQuestion > 9) {
-			return 'All done... results';
-		} else {
-			return wasCorrect ? 'Great job! Next question' : 'Wrong! Next question';
-		}
-	};
-	const uiText = getUiText();
-	timerText.style.color = 'black';
-	timerText.innerHTML = `${uiText} in ${gameState.secondsLeft + 1} seconds or ${
-		continueLink.outerHTML
-	}`;
-	let screenTimer = setInterval(() => {
-		if (gameState.secondsLeft < 1) {
-			update();
-			timerText.style.color = 'white';
-			clearInterval(screenTimer);
-		} else {
-			gameState.secondsLeft -= 1;
-			timerText.innerHTML = `${uiText} in ${
-				gameState.secondsLeft + 1
-			} seconds or ${continueLink.outerHTML}`;
-		}
-	}, 1000);
 }
 
 function randomizeButtons(answers) {
@@ -194,14 +197,14 @@ function setAnswerButtonText(answers) {
 	}
 }
 
-function skipCountdown() {
-	gameState.secondsLeft = 0;
-}
-
 function showMainMenu(e) {
 	e.preventDefault();
 	mainContainer.innerHTML = '';
 	mainContainer.appendChild(mainMenu);
+}
+
+function skipCountdown() {
+	gameState.secondsLeft = 0;
 }
 
 function startGame(e) {
