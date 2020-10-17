@@ -27,13 +27,16 @@ button {
 	margin-bottom: 5px;
 }
 
-button:hover {
-	background-color: #2dc086;
+@media (hover: hover) {
+	button:hover {
+		background-color: #2dc086;
+	}
 }
 
 button:active {
 	/* transform taken from w3schools */
 	transform: translateY(2px);
+	background-color: #2dc086;
 }
 
 button:focus {
@@ -42,6 +45,16 @@ button:focus {
 
 h1 {
 	font-size: 40px;
+	margin-top: 60px;
+	margin-bottom: 15px;
+}
+
+h4 {
+	font-size: 20px;
+}
+
+p {
+	margin: 10px 15px 15px 15px;
 }
 
 #main-container {
@@ -49,7 +62,7 @@ h1 {
 	max-width: 500px;
 	text-align: center;
 	margin: auto;
-	margin-top: 25px;
+	margin-top: 10px;
 }
 
 #button-container {
@@ -69,16 +82,14 @@ h1 {
 }
 
 .progress {
-	position: absolute;
-	right: 10px;
-	width: auto;
-	top: 0px;
-	height: 100px;
+	text-align: center;
+	margin-bottom: 5px;
+	margin-top: 10px;
 }
 
 .score {
 	position: absolute;
-	left: 10px;
+	right: 10px;
 	width: auto;
 	top: 0px;
 	height: 100px;
